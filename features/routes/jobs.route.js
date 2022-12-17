@@ -14,7 +14,7 @@ route.post("/",async(req,res)=>{
 })
 
 route.get("/",async(req,res)=>{
-  let response=await getJobs()
+  let response=await getJobs(req)
   if(response.message=="Successful")
   {
     return res.send(response)

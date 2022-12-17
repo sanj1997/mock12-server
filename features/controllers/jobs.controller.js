@@ -12,11 +12,21 @@ const postJobs=async(company,postedAt,city,location,role,level,contract,position
    return res
 } 
 
-const getJobs=async()=>{
+const getJobs=async(req)=>{
+    const {sortBy="postedAt",order="asc",page=1,limit=10,q}=req.query
     let res;
     try{
-       const data=await JobModel.find()
-       res={message:"Successful",data:data}
+        if(q!=undefined)
+        {
+           const data=await JobModel.find({language:{$regex:q,$option:"i"}})
+           res={message:"Successful"}
+        }
+        else
+        {
+            const data=await JobModel.find().sort({[sortBy]:order=="asc"?1:-1}).skip((page-1)*10).limit(limit)
+            res={message:"Successful",data:data}
+        }
+       
     }catch(e){
        res={message:e.message}
     }
