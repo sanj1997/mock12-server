@@ -11,4 +11,15 @@ const postJobs=async(company,postedAt,city,location,role,level,contract,position
    }
    return res
 } 
-module.exports={postJobs}
+
+const getJobs=async()=>{
+    let res;
+    try{
+       const data=await JobModel.find()
+       res={message:"Successful",data:data}
+    }catch(e){
+       res={message:e.message}
+    }
+    return res
+}
+module.exports={postJobs,getJobs}
