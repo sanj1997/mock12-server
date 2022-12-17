@@ -14,14 +14,17 @@ const postJobs=async(company,postedAt,city,location,role,level,contract,position
 
 const getJobs=async(req)=>{
     const {sortBy="postedAt",order="asc",page=1,limit=10,q,filter}=req.query
+    
     let res;
     try{
-        if(q!=undefined)
+        if(q!=="")
         {
-           const data=await JobModel.find({language:{$regex:q,$option:"i"}})
-           res={message:"Successful"}
+            console.log(q,"heyy")
+           const data=await JobModel.find({language:{$regex:q,$options:"i"}})
+           console.log(data,"data")
+           res={message:"Successful",data:data}
         }
-        else if(filter!=undefined)
+        else if(filter!="")
         {
             const data=await JobModel.find({role:filter})
             res={message:"Successful",data:data}
